@@ -17,16 +17,14 @@ export default function LogIn() {
     }
   }
 
-  console.log(currentUser)
-
   return (
     <Card>
       <Card.Body>
         <h3 className="text-center mb-4">
           Hello{" "}
-          {currentUser.phoneNumber
+          {currentUser.phoneNumber !== null
             ? currentUser.phoneNumber
-            : currentUser.email}
+            : currentUser.displayname}
         </h3>
         {error && <Alert variant="danger">{error}</Alert>}
         <Form>

@@ -10,7 +10,7 @@ export default function LogIn() {
   const { signinWithPhone } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
   const [confirm, setConfirm] = useState(null)
   // const [verifier, setVerifier] = useState(null)
   const history = useHistory()
@@ -24,19 +24,20 @@ export default function LogIn() {
     )
   }, [])
 
-  async function onSignInSubmit() {
+  async function sendCode() {
     try {
       setError("")
       setLoading(true)
       setVisible(true)
+      console.log("try error")
       const confirmation = await signinWithPhone(
         numberRef.current.value,
-        window.recaptchaVerifier
+        window.RecaptchaVerifier
       )
       console.log(confirmation)
       setConfirm(confirmation)
     } catch {
-      console.log("hi")
+      console.log("catch error")
       setError("Failed to send code")
     }
     setLoading(false)
@@ -59,7 +60,7 @@ export default function LogIn() {
       <Card.Body>
         <h2 className="text-center mb-4">Log In</h2>
         {error && <Alert variant="danger">{error}</Alert>}
-        <Form onSubmit={onSignInSubmit}>
+        <Form onSubmit={sendCode}>
           <Form.Group id="phone-number">
             <Form.Label>Phone number</Form.Label>
             <Form.Control
@@ -70,8 +71,8 @@ export default function LogIn() {
             />
           </Form.Group>
           <Button
-            disabled={loading}
             id="sign-in-button"
+            disabled={loading}
             className="w-100"
             type="submit"
           >
